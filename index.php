@@ -8,9 +8,9 @@ and open the template in the editor.
         set_time_limit(0);
         ini_alter('default_socket_timeout', 300);
         session_start();
-        define('clientID', value);
-        define('client_Secret', value);
-        define('redirectURI', value);
+        define('clientID', 'c73d173254d844b89d8117954f97d9ee');
+        define('client_Secret', '971766cd8c4f4af7b7a6ff36f32b68b0');
+        define('redirectURI', 'http://localhost/suchselfie/index.php');
         define('ImageDirectory', 'pics/');
         
         function connectToInstagram($url){
@@ -26,10 +26,19 @@ and open the template in the editor.
             return $result;
         }
         function getUserID($userName){
-            $url = 'http://api.instagram.com/v1/users/search?q='.$userName.'&client_id='.clientID;
+            $url = 'https://api.instagram.com/v1/users/search?q='.$userName.'&client_id='.clientID;
             $instagramInfo=  connectToInstagram($url);
             $results = json_decode($instagramInfo,true);
             echo $results ['data']['0']['id'];
+        }
+        function printImages($userID){
+            $url= 'https://api.instagram.com/v1/users/'.$userID.'/media/recent?client_id='. clientID .'&count=5';
+            $instagramInfo=  connectToInstagram($url);
+            $results = json_decode($instagramInfo,true);
+            foreach ($results['data'] as $items){
+                $image_url = $items['images']['low_resolution']['url'];
+                echo '<img src=" '.$image_url.' "/><br/>';
+            }
         }
         
         if (isset($_GET['code'])){
@@ -50,7 +59,9 @@ and open the template in the editor.
         $result = curl_exec($curl);
         curl_close($curl);
         $results = json_decode($result,true);
-        echo $results['user']['username'];
+        $userName = $results['user']['username'];
+        $userID = getUserID($userName);
+        printImages($userID);
         }
         else {
             
@@ -63,6 +74,6 @@ and open the template in the editor.
         <title>SelfiesForDays</title>
     </head>
     <body>
-        <a href="https:api.instagram/ouath/authorize/?client_id=<?php echo clientID; ?>&redirect_uri=<?php echo redirectURI; ?>&response_type=code">LOGIN</a>
+        <a href="https:api.instagram.com/ouath/authorize/?client_id=<?php echo clientID; ?>&redirect_uri=<?php echo redirectURI; ?>&response_type=code">LOGIN</a>
     </body>
 </html>
