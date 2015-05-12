@@ -29,7 +29,7 @@ and open the template in the editor.
             $url = 'https://api.instagram.com/v1/users/search?q='.$userName.'&client_id='.clientID;
             $instagramInfo=  connectToInstagram($url);
             $results = json_decode($instagramInfo,true);
-            echo $results ['data']['0']['id'];
+            return $results ['data']['0']['id'];
         }
         function printImages($userID){
             $url= 'https://api.instagram.com/v1/users/'.$userID.'/media/recent?client_id='. clientID .'&count=5';
