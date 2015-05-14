@@ -38,7 +38,15 @@ and open the template in the editor.
             foreach ($results['data'] as $items){
                 $image_url = $items['images']['low_resolution']['url'];
                 echo '<img src=" '.$image_url.' "/><br/>';
+                savePictures($image_url);
             }
+        }
+        function savePictures($image_url){
+            echo $image_url.'<br>';
+            $filename = basename($image_url);
+            echo $filename .'<br>';
+            $destination = ImageDirectory . $filename;
+            file_put_contents($destination, file_get_contents($image_url));
         }
         
         if (isset($_GET['code'])){
