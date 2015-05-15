@@ -29,7 +29,7 @@ and open the template in the editor.
             $url = 'https://api.instagram.com/v1/users/search?q='.$userName.'&client_id='.clientID;
             $instagramInfo=  connectToInstagram($url);
             $results = json_decode($instagramInfo,true);
-            return $results ['data']['0']['id'];
+            return $results ['data'][0]['id'];
         }
         function printImages($userID){
             $url= 'https://api.instagram.com/v1/users/'.$userID.'/media/recent?client_id='. clientID .'&count=5';
@@ -50,7 +50,7 @@ and open the template in the editor.
         }
         
         if (isset($_GET['code'])){
-            $code = ($_GET['code']);
+            $code = $_GET['code'];
             $url = 'https://api.instagram.com/oauth/access_token';
             $access_token_settings = array('client_id' => clientID,
                                             'client_secret'=> client_Secret,
@@ -78,10 +78,15 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" hrer="css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width" />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/main.css">
         <title>SelfiesForDays</title>
     </head>
-    <body>
+    <body class = "bod">
+        <div id ="box">
         <a href="https:api.instagram.com/ouath/authorize/?client_id=<?php echo clientID; ?>&redirect_uri=<?php echo redirectURI; ?>&response_type=code">LOGIN</a>
-    </body>
+        </div>
+        </body>
 </html>
